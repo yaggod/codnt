@@ -5,17 +5,18 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Programm
 {
-	private static Point[] all;
+	private static ArrayList<Point> all = new ArrayList<Point>();
 	private static Robot rb;
-	static int kcount = 0;
 	
+	private Programm() { }
 	
+
 	public static void main(String[] args) throws AWTException {
 		rb = new Robot();
-		all = new Point[12];
 		JFrame win = new JFrame("bot");
 		win.setAlwaysOnTop(true);
 		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,15 +41,14 @@ public class Programm
 		
 		public void run() {
 			int did = 0;
-				for (Point single : all) {
-					if (did++ >= kcount) break;
+			Point[] pnt;
+			pnt =  all.toArray(new Point[all.size()]);
+				for (Point single : pnt) {
 					rb.mouseMove(single.x, single.y);
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					rb.mousePress(InputEvent.BUTTON1_MASK);
+					rb.delay(50);
+					rb.mouseRelease(InputEvent.BUTTON1_MASK);
+					rb.delay(135);
 				}
 				
 
@@ -64,14 +64,13 @@ public class Programm
 
 			@Override
 			synchronized public void run() {
-				if (kcount > all.length) throw new ArrayIndexOutOfBoundsException();
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				all[kcount++] = MouseInfo.getPointerInfo().getLocation();
+				all.add(MouseInfo.getPointerInfo().getLocation());
 
 			}
 			
