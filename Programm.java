@@ -8,14 +8,14 @@ import java.awt.event.KeyEvent;
 
 public class Programm
 {
-	private static int[][] all;
+	private static Point[] all;
 	private static Robot rb;
 	static int kcount = 0;
 	
 	
 	public static void main(String[] args) throws AWTException {
 		rb = new Robot();
-		all = new int[12][2];
+		all = new Point[12];
 		JFrame win = new JFrame("bot");
 		win.setAlwaysOnTop(true);
 		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,9 +40,9 @@ public class Programm
 		
 		public void run() {
 			int did = 0;
-				for (int[] single : all) {
+				for (Point single : all) {
 					if (did++ >= kcount) break;
-					rb.mouseMove(single[0], single[1]);
+					rb.mouseMove(single.x, single.y);
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
@@ -71,8 +71,7 @@ public class Programm
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Point p = MouseInfo.getPointerInfo().getLocation();
-				all[kcount][0] = p.x; all[kcount++][1] = p.y;
+				all[kcount++] = MouseInfo.getPointerInfo().getLocation();
 
 			}
 			
